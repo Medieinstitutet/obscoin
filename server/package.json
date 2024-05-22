@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "server.mjs",
   "scripts": {
-    "dev": "nodemon --env-file=config/settings.env server.mjs",
-    "dev-node": "nodemon --env-file=config/settings.env server.mjs"
+    "dev": "DYNAMIC_NODE_PORT=false nodemon --env-file=config/.env server.mjs",
+    "dev-node": "nodemon --env-file=config/.env server.mjs"
   },
   "keywords": [],
   "author": "",
