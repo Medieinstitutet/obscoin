@@ -1,6 +1,6 @@
 import express from 'express';
 import Blockchain from './models/Blockchain.mjs';
-import PubNubServer from './pubnub.mjs';
+import PubNubServer from './pubnubServer.mjs';
 import blockchainRouter from './routes/blockchain-routes.mjs';
 import txRouter from './routes/tx-routes.mjs';
 
@@ -18,7 +18,9 @@ let nodePort =
     ? PORT + Math.floor(Math.random() * 1000)
     : PORT;
 
-setTimeout(pubnub.broadcast, 1000);
+setTimeout(() => {
+  pubnub.broadcast();
+}, 1000);
 
 app.use('/api/v1/obscoin/blockchain', blockchainRouter);
 app.use('/api/v1/obscoin/transactions', txRouter);
@@ -29,7 +31,7 @@ const syncBlockchain = async () => {
 
     if (response.ok) {
       const { data } = await response.json();
-      blockchain.updateChaain(data);
+      blockchain.updateChain(data);
     } else {
       throw new Error('Failed to sync blockchain: Server response not OK');
     }
