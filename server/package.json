@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "DYNAMIC_NODE_PORT=false nodemon --env-file=config/.env server.mjs",
     "dev-node": "nodemon --env-file=config/.env server.mjs",
-    "dev-node-pn": "cross-env GENERATE_NODE_PORT='true' nodemon server.mjs"
+    "dev-node-pn": "cross-env DYNAMIC_NODE_PORT='true' nodemon server.mjs"
   },
   "keywords": [],
   "author": "",
