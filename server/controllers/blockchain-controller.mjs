@@ -1,4 +1,4 @@
-import { blockchain } from '../server.mjs';
+import { blockchain, pubnub } from '../server.mjs';
 
 // Method for listing all blocks in the blockchain...
 export const listBlocks = (req, res) => {
@@ -40,5 +40,6 @@ export const addBlock = (req, res) => {
   res.status(201).json({
     data: newBlock,
   })
-} 
 
+  pubnub.broadcast();
+}
