@@ -31,3 +31,14 @@ export const getLastBlock = (req, res) => {
     data: lastBlock,
   });
 };
+
+// Method for adding a new block to the blockchain...
+export const addBlock = (req, res) => {
+  const { data } = req.body;
+  const newBlock = blockchain.addBlock(data);
+
+  res.status(201).json({
+    data: newBlock,
+  })
+} 
+
