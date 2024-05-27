@@ -4,7 +4,7 @@ import PubNubServer from './pubnubServer.mjs';
 import blockchainRouter from './routes/blockchain-routes.mjs';
 import txRouter from './routes/tx-routes.mjs';
 
-const blockchain = new Blockchain();
+export const blockchain = new Blockchain();
 const pubnub = new PubNubServer({ blockchain });
 
 const app = express();
