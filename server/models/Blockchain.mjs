@@ -17,11 +17,15 @@ export default class Blockchain {
   } 
 
   addBlock(data) {
-    const latestBlock = this.getLatestBlock()
+    const latestBlock = this.getLatestBlock();
+    const timestamp = Date.now();
+    const lastHash = latestBlock.hash
+    const index = latestBlock.index +1
+
     const newBlock = new Block({
-      timestamp: Date.now(),
-      lastHash: latestBlock.hash,
-      index: latestBlock.index + 1,
+      timestamp: timestamp,
+      lastHash: lastHash,
+      index: index,
       data: data
   })
     this.chain.push(newBlock)

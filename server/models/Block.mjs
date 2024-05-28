@@ -1,7 +1,7 @@
 import computeHash from '../utils/crypto-lib.mjs';
 
 export default class Block {
-  constructor(timestamp, lastHash = '', index, data) {
+  constructor({timestamp, lastHash = '', index, data}) {
     this.timestamp = timestamp;
     this.lastHash = lastHash;
     this.hash = this.calculateHash();
