@@ -2,7 +2,7 @@ import express from 'express';
 import Blockchain from './models/Blockchain.mjs';
 import PubNubServer from './pubnubServer.mjs';
 import blockchainRouter from './routes/blockchain-routes.mjs';
-import txRouter from './routes/tx-routes.mjs';
+// import txRouter from './routes/tx-routes.mjs';
 
 export const blockchain = new Blockchain();
 export const pubnub = new PubNubServer({ blockchain });
@@ -23,7 +23,7 @@ setTimeout(() => {
 }, 1000);
 
 app.use('/api/v1/obscoin/blockchain', blockchainRouter);
-app.use('/api/v1/obscoin/transactions', txRouter);
+// app.use('/api/v1/obscoin/transactions', txRouter);
 
 const syncBlockchain = async () => {
   try {

@@ -1,6 +1,6 @@
 import Transaction from './Transaction.mjs';
-import { computeHash } from '../utils/crypto-lib.mjs';
-import {Block} from '../models/Block.mjs'
+import  computeHash  from '../utils/crypto-lib.mjs';
+import Block from '../models/Block.mjs'
 
 const GENESIS_BLOCK = {
   timestamp: 1,
@@ -21,7 +21,6 @@ export default class Blockchain {
     const newBlock = new Block({
       timestamp: Date.now(),
       lastHash: latestBlock.hash,
-      hash: hash,
       index: latestBlock.index + 1,
       data: data
   })
@@ -44,9 +43,10 @@ export default class Blockchain {
 
   updateChain(newChain) {
     if (newChain.length <= this.chain.length) {
-      throw new Error('New chain is not longer than current chain');
+      return
+      // throw new Error('New chain is not longer than current chain');
     }
-
+    
     if (!Blockchain.isValidChain(newChain)) {
       throw new Error('New chain is invalid');
     }
