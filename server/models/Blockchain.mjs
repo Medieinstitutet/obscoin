@@ -1,5 +1,6 @@
 import Transaction from './Transaction.mjs';
 import { computeHash } from '../utils/crypto-lib.mjs';
+import {Block} from '../models/Block.mjs'
 
 const GENESIS_BLOCK = {
   timestamp: 1,
@@ -13,6 +14,23 @@ export default class Blockchain {
     this.chain = [GENESIS_BLOCK];
 
     this.pendingTransactions = [];
+  } 
+
+  addBlock(data) {
+    const latestBlock = this.getLatestBlock()
+    const newBlock = new Block({
+      timestamp: Date.now(),
+      lastHash: latestBlock.hash,
+      hash: hash,
+      index: latestBlock.index + 1,
+      data: data
+  })
+    this.chain.push(newBlock)
+    return newBlock
+  }
+
+  getLatestBlock(){
+    return this.chain[this.chain.length - 1];
   }
 
   initTx(details) {
