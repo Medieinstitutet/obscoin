@@ -1,6 +1,7 @@
 import Transaction from './Transaction.mjs';
-import  computeHash  from '../utils/crypto-lib.mjs';
-import Block from '../models/Block.mjs'
+import computeHash from '../utils/crypto-lib.mjs';
+import Block from '../models/Block.mjs';
+import PubNubServer from '../pubnubServer.mjs';
 
 const GENESIS_BLOCK = {
   timestamp: 1,
@@ -14,25 +15,27 @@ export default class Blockchain {
     this.chain = [GENESIS_BLOCK];
 
     this.pendingTransactions = [];
-  } 
+  }
 
   addBlock(data) {
     const latestBlock = this.getLatestBlock();
     const timestamp = Date.now();
-    const lastHash = latestBlock.hash
-    const index = latestBlock.index +1
+    const lastHash = latestBlock.hash;
+    const index = latestBlock.index + 1;
 
     const newBlock = new Block({
       timestamp: timestamp,
       lastHash: lastHash,
       index: index,
-      data: data
-  })
-    this.chain.push(newBlock)
-    return newBlock
+      data: data,
+    });
+
+    this.chain.push(newBlock);
+
+    return newBlock;
   }
 
-  getLatestBlock(){
+  getLatestBlock() {
     return this.chain[this.chain.length - 1];
   }
 
@@ -47,12 +50,12 @@ export default class Blockchain {
 
   updateChain(newChain) {
     if (newChain.length <= this.chain.length) {
-      return
-      // throw new Error('New chain is not longer than current chain');
+      console.log('new chain is not longer');
+      return;
     }
-    
     if (!Blockchain.isValidChain(newChain)) {
-      throw new Error('New chain is invalid');
+      console.error('Chain is invalid');
+      return;
     }
 
     this.chain = newChain;
@@ -60,27 +63,39 @@ export default class Blockchain {
 
   static isValidChain(newChain) {
     if (newChain.length === 0) {
-      throw new Error('New chain is empty');
+      console.error('New chain is empty');
+      return false;
     }
 
     if (JSON.stringify(newChain[0]) !== JSON.stringify(GENESIS_BLOCK)) {
-      throw new Error('First block in chain is not genesis');
+      console.error('First block in chain is not genesis');
+      return false;
     }
 
     for (let i = 1; i < newChain.length; i++) {
-      const { timestamp, lastHash, hash, data } = newChain[i];
+      const { index, lastHash, timestamp, hash, data } = newChain[i];
       const newChainLastHash = newChain[i - 1].hash;
 
       if (lastHash !== newChainLastHash) {
-        throw new Error(`Block index: ${i} has an invalid lastHash`);
+        console.error(
+          `Block index: ${i}, lastHash is not equal to newChainLastHash`
+        );
+        return false;
       }
 
-      const validatedHash = computeHash(timestamp, lastHash, data);
+      const validatedHash = computeHash(
+        index,
+        lastHash,
+        timestamp.toString(),
+        JSON.stringify(data)
+      );
 
       if (hash !== validatedHash) {
-        throw new Error(`Block index: ${i} has an invalid hash`);
+        console.error(`Block index: ${i}, hash is not equal to validatedHash`);
+        return false;
       }
     }
+
     return true;
   }
 }

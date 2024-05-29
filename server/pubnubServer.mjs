@@ -52,20 +52,29 @@ class PubNubServer {
   // Executes callback in to listen for incoming messages
   addListener() {
     try {
-      this.pubnub.addListener({ message: this.handleMsg });
+      this.pubnub.addListener({
+        message: (msgObj) => {
+          // Use an arrow function to preserve `this` context
+          this.handleMsg(msgObj);
+        },
+      });
     } catch (err) {
       console.error(`Error listening to incoming messages, error: ${err}`);
     }
   }
 
   handleMsg(msgObj) {
-    const { channel, message } = msgObj; // Extract incoming msgs
-    const newChain = JSON.parse(message);
+    try {
+      const { channel, message } = msgObj; // Extract incoming msgs
+      const newChain = JSON.parse(message);
 
-    console.log(`Blockchain: ${message} received on channel: ${channel}`);
+      console.log(`Blockchain: ${message} received on channel: ${channel}`);
 
-    if (channel === CHANNELS.BLOCKCHAIN) {
-      this.blockchain.updateChain(newChain);
+      if (channel === CHANNELS.BLOCKCHAIN) {
+        this.blockchain.updateChain(newChain);
+      }
+    } catch (err) {
+      console.log(`Error in handleMsg:', ${err}`);
     }
   }
 }
