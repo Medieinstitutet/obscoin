@@ -22,6 +22,7 @@ export default class Blockchain {
     const timestamp = Date.now();
     const lastHash = latestBlock.hash;
     const index = latestBlock.index + 1;
+    const data = this.pendingTransactions;
 
     const newBlock = new Block({
       timestamp: timestamp,
@@ -31,6 +32,8 @@ export default class Blockchain {
     });
 
     this.chain.push(newBlock);
+
+    this.pendingTransactions = [];
 
     return newBlock;
   }
@@ -46,6 +49,16 @@ export default class Blockchain {
   addNewTx(transaction) {
     this.pendingTransactions.push(transaction);
     return this.getLatestBlock().index + 1;
+  }
+
+  listAllTx() {
+    let allTransactions = [];
+    for (let block of this.chain) {
+      for (let transaction of block.data) {
+        allTransactions.push(transaction);
+      }
+    }
+    return allTransactions;
   }
 
   updateChain(newChain) {
