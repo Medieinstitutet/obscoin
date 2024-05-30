@@ -17,7 +17,7 @@ export default class Blockchain {
     this.pendingTransactions = [];
   }
 
-  addBlock(data) {
+  addBlock() {
     const latestBlock = this.getLatestBlock();
     const timestamp = Date.now();
     const lastHash = latestBlock.hash;
