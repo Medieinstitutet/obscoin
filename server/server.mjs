@@ -1,14 +1,16 @@
 import express from 'express';
+import cors from 'cors';
 import Blockchain from './models/Blockchain.mjs';
 import PubNubServer from './pubnubServer.mjs';
 import blockchainRouter from './routes/blockchain-routes.mjs';
-// import txRouter from './routes/tx-routes.mjs';
+import txRouter from './routes/tx-routes.mjs';
 
 export const blockchain = new Blockchain();
 export const pubnub = new PubNubServer({ blockchain });
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 const PORT = +process.env.PORT || 5010;
 const PRIMARY_NODE = `http://localhost:${PORT}`;
@@ -23,7 +25,7 @@ setTimeout(() => {
 }, 1000);
 
 app.use('/api/v1/obscoin/blockchain', blockchainRouter);
-// app.use('/api/v1/obscoin/transactions', txRouter);
+app.use('/api/v1/obscoin/transactions', txRouter);
 
 const syncBlockchain = async () => {
   try {
