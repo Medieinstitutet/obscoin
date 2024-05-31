@@ -5,7 +5,7 @@ export const listBlocks = (req, res) => {
   res.status(200).json({
     data: {
       chain: blockchain.chain,
-      pendingTransations: blockchain.pendingTransactions,
+      pendingTransactions: blockchain.pendingTransactions,
     },
   });
 };
