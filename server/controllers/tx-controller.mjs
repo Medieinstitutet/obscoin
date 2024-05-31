@@ -39,18 +39,3 @@ export const getTxById = (req, res, next) => {
 export const getAllTx = (req, res, next) => {
   res.status(200).json(blockchain.pendingTransactions);
 };
-
-// export const deleteTxById = (req, res, next) => {
-//   const { txId } = req.params;
-
-//   const index = transactions.findIndex(
-//     (transaction) => transaction.txId === txId
-//   );
-
-//   if (index === -1) {
-//     return res.status(404).json({ error: 'Transaction not found' });
-//   }
-
-//   const deletedTx = transactions.splice(index, 1);
-//   res.status(200).json(deletedTx);
-// };
