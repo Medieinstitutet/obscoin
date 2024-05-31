@@ -1,7 +1,7 @@
 import Transaction from '../models/Transaction.mjs';
+import { blockchain } from '../server.mjs';
 
-let transactions = [];
-
+// Create a new transaction...
 export const createTx = (req, res, next) => {
   const { amount, sender, recipient } = req.body;
 
@@ -13,18 +13,19 @@ export const createTx = (req, res, next) => {
 
   try {
     const newTx = new Transaction({ amount, sender, recipient });
-    transactions.push(newTx);
+    blockchain.addNewTx(newTx);
     res.status(201).json(newTx);
   } catch (error) {
     next(error);
   }
 };
 
+// Get transaction by ID...
 export const getTxById = (req, res, next) => {
   const { txId } = req.params;
 
-  const transaction = transactions.find(
-    (transaction) => transaction.txId === txId
+  const transaction = blockchain.pendingTransactions.find(
+    (tx) => tx.txId === txId
   );
 
   if (!transaction) {
@@ -34,21 +35,22 @@ export const getTxById = (req, res, next) => {
   res.status(200).json(transaction);
 };
 
+// Get all transactions...
 export const getAllTx = (req, res, next) => {
-  res.status(200).json(transactions);
+  res.status(200).json(blockchain.pendingTransactions);
 };
 
-export const deleteTxById = (req, res, next) => {
-  const { txId } = req.params;
+// export const deleteTxById = (req, res, next) => {
+//   const { txId } = req.params;
 
-  const index = transactions.findIndex(
-    (transaction) => transaction.txId === txId
-  );
+//   const index = transactions.findIndex(
+//     (transaction) => transaction.txId === txId
+//   );
 
-  if (index === -1) {
-    return res.status(404).json({ error: 'Transaction not found' });
-  }
+//   if (index === -1) {
+//     return res.status(404).json({ error: 'Transaction not found' });
+//   }
 
-  const deletedTx = transactions.splice(index, 1);
-  res.status(200).json(deletedTx);
-};
+//   const deletedTx = transactions.splice(index, 1);
+//   res.status(200).json(deletedTx);
+// };
