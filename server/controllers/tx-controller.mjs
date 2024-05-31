@@ -6,9 +6,7 @@ export const createTx = (req, res, next) => {
   const { amount, sender, recipient } = req.body;
 
   if (!amount || !sender || !recipient) {
-    return res
-      .status(400)
-      .json({ error: 'Transaction details are incomplete' });
+    return res.status(400).json({ error: 'Transaction details are incomplete' });
   }
 
   try {
@@ -24,9 +22,13 @@ export const createTx = (req, res, next) => {
 export const getTxById = (req, res, next) => {
   const { txId } = req.params;
 
-  const transaction = blockchain.pendingTransactions.find(
-    (tx) => tx.txId === txId
-  );
+  let transaction = null;
+
+  for (let block of blockchain.chain) {
+    transaction = block.data.find((tx) => tx.txId === txId);
+    console.log(transaction);
+    if (transaction) break;
+  }
 
   if (!transaction) {
     return res.status(404).json({ error: 'Transaction not found' });
