@@ -81,7 +81,8 @@
 }
 
 .tx-form input {
-  width: 75%;
+  box-sizing: border-box;
+  width: 100%;
   margin-bottom: 20px;
   padding: 10px;
   border-radius: 5px;
