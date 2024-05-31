@@ -3,7 +3,10 @@ import { blockchain, pubnub } from '../server.mjs';
 // Method for listing all blocks in the blockchain...
 export const listBlocks = (req, res) => {
   res.status(200).json({
-    data: blockchain.chain,
+    data: {
+      chain: blockchain.chain,
+      pendingTransations: blockchain.pendingTransactions,
+    },
   });
 };
 
@@ -34,12 +37,11 @@ export const getLastBlock = (req, res) => {
 
 // Method for adding a new block to the blockchain...
 export const addBlock = (req, res) => {
-  const { data } = req.body;
-  const newBlock = blockchain.addBlock(data);
+  const newBlock = blockchain.addBlock();
 
   res.status(201).json({
     data: newBlock,
-  })
+  });
 
   pubnub.broadcast();
-}
+};
