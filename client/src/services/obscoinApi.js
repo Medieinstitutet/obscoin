@@ -17,10 +17,10 @@ const getBlockById = (id) => handleFetch(`${BASE_URL}/blockchain/${id}`);
 
 const addTransaction = async (txData) => {
   try {
-    const response = await fetch(`${BASE_URL}/transaction`, {
+    const response = await fetch(`${BASE_URL}/transactions/transaction`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      data: JSON.stringify(txData),
+      body: JSON.stringify(txData),
     });
 
     const result = await response.json();

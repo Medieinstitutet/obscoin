@@ -1,0 +1,186 @@
+{
+	"info": {
+		"_postman_id": "284ea805-f84d-4064-9687-a01131758dea",
+		"name": "Obscoin",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "20995214"
+	},
+	"item": [
+		{
+			"name": "Transactions",
+			"item": [
+				{
+					"name": "5010 Get Transactions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{obscoin_base_url}}/transactions"
+					},
+					"response": []
+				},
+				{
+					"name": "5010 Get Transaction by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{obscoin_base_url}}/transactions/:id",
+							"host": [
+								"{{obscoin_base_url}}"
+							],
+							"path": [
+								"transactions",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5010 Add transaction",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\": 100,\n    \"sender\": \"Michael\",\n    \"recipient\": \"Emma\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{obscoin_base_url}}/transactions/transaction"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transactions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{obscoin_generated_node}}/transactions"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transaction by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{obscoin_generated_node}}}/transactions/:id",
+							"host": [
+								"{{obscoin_generated_node}}}"
+							],
+							"path": [
+								"transactions",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add transaction",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\": 100,\n    \"sender\": \"Michael\",\n    \"recipient\": \"Emma\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{obscoin_generated_node}}/transactions/transaction"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Blockchain",
+			"item": [
+				{
+					"name": "Get Blockchain 5010",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{obscoin_base_url}}/blockchain"
+					},
+					"response": []
+				},
+				{
+					"name": "Mine Block 5010",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "{{obscoin_base_url}}/blockchain/mine"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Blockchain",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{obscoin_generated_node}}/blockchain"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "obscoin_base_url",
+			"value": "http://localhost:5010/api/v1/obscoin"
+		},
+		{
+			"key": "obscoin_generated_node",
+			"value": "http://localhost:{{generated_port_nr}}/api/v1/obscoin"
+		},
+		{
+			"key": "generated_port_nr",
+			"value": "5190",
+			"type": "string"
+		}
+	]
+}
