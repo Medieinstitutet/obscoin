@@ -8,39 +8,43 @@ function App() {
   const [blockchain, setBlockchain] = useState({});
   const [blockchainList, setBlockchainList] = useState([]);
   const [pendingTransactions, setPendingTransactions] = useState([]);
+  const [dynamicPort, setDynamicPort] = useState('');
 
   useEffect(() => {
-    fetchBlockchain();
-
-    const fetchNodes = async () => {
-      const nodes = await getNodes();
-      console.log('nodes from app', nodes);
-
-      nodes.map((node) => {
-        console.log(node.address);
-      });
-    };
-
     fetchNodes();
   }, []);
 
   useEffect(() => {
-    console.log('Blockchain changed', blockchain);
+    if (dynamicPort) {
+      fetchBlockchain(dynamicPort);
+    }
+  }, [dynamicPort]);
+
+  useEffect(() => {
     if (blockchain && blockchain.data && Array.isArray(blockchain.data.chain)) {
       setBlockchainList(blockchain.data.chain);
       setPendingTransactions(blockchain.data.pendingTransactions || []);
     }
-    console.log(pendingTransactions);
   }, [blockchain]);
 
-  const fetchBlockchain = async () => {
+  const fetchNodes = async () => {
     try {
-      const blockchainData = await getBlockchain();
-      setBlockchain(blockchainData);
-      if (blockchainData && blockchainData.data) {
-        setBlockchainList(blockchainData.data.chain);
-        setPendingTransactions(blockchainData.data.pendingTransactions || []);
+      const nodes = await getNodes();
+      if (nodes.length > 0) {
+        const firstNodeAddress = nodes[0].address;
+
+        console.log('Dynamic Port:', firstNodeAddress);
+        setDynamicPort(firstNodeAddress);
       }
+    } catch (err) {
+      console.error(`Error fetching nodes: ${err}`);
+    }
+  };
+
+  const fetchBlockchain = async (port) => {
+    try {
+      const blockchainData = await getBlockchain(port);
+      setBlockchain(blockchainData);
     } catch (err) {
       console.error(`Error fetching blockchain: ${err}`);
     }
@@ -50,13 +54,13 @@ function App() {
     return blockchainList.map((block, index) => (
       <div
         key={index}
-        className='block'
+        className="block"
       >
         <h3>Block {index + 1}</h3>
         <p>Hash: {block.hash}</p>
         <p>Last Hash: {block.lastHash}</p>
         <p>Timestamp: {block.timestamp}</p>
-        <ul className='transaction-list'>
+        <ul className="transaction-list">
           <h3>Transactions</h3>
           {block.data.map((transaction, i) => (
             <li key={i}>
@@ -85,16 +89,25 @@ function App() {
   return (
     <>
       <Header />
-      <TxForm fetchBlockchain={fetchBlockchain} />
+      <TxForm
+        fetchBlockchain={fetchBlockchain}
+        dynamicPort={dynamicPort}
+      />
       {pendingTransactions.length > 0 ? (
         <>
           <h3>Pending Transactions</h3>
-          <ul className='pending-transactions'>{renderPendingTransactions()}</ul>
+          <ul className="pending-transactions">
+            {renderPendingTransactions()}
+          </ul>
         </>
       ) : (
         'No pending transactions...'
       )}
-      {blockchainList.length > 0 ? <ul>{renderBlockchain()}</ul> : <p>Loading blockchain...</p>}
+      {blockchainList.length > 0 ? (
+        <ul>{renderBlockchain()}</ul>
+      ) : (
+        <p>Loading blockchain...</p>
+      )}
     </>
   );
 }
