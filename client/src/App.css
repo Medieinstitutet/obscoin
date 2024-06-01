@@ -54,7 +54,7 @@
 
 .block:hover {
   transform: translateY(-10px);
-  box-shadow: 0 12px 30px rgb(5, 54, 4), 0 0 30px #80ba63b3;
+  box-shadow: 0 12px 30px rgb(5, 54, 4), 0 0 30px hsla(225, 85%, 57%, 0.757);
 }
 
 .block h3 {
