@@ -1,47 +1,46 @@
 const BASE_URL = 'http://localhost:5010/api/v1/obscoin';
-const DYNAMIC_PORT = 'get dynamic port from getNodes';
-const DYNAMIC_URL = `http://localhost:${DYNAMIC_PORT}/api/v1/obscoin`;
 
 const handleFetch = async (url) => {
   try {
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
-
     return data;
   } catch (err) {
-    console.log(`Error: ${err} while fetching.`);
+    console.error(`Error: ${err} while fetching.`);
+    return {};
   }
 };
+
 const getNodes = async () => {
   try {
     const response = await fetch(`${BASE_URL}/nodes`);
     const data = await response.json();
-    console.log(data.nodes);
-
     return data.nodes;
   } catch (err) {
-    console.log(`Error: ${err} while fetching.`);
+    console.error(`Error fetching nodes: ${err}`);
+    return [];
   }
 };
-// const getNodes = () => handleFetch(`${BASE_URL}/nodes`);
-const getBlockchain = () => handleFetch(`${BASE_URL}/blockchain`);
-const getBlockById = (id) => handleFetch(`${BASE_URL}/blockchain/${id}`);
 
-const addTransaction = async (txData) => {
+const getBlockchain = async (dynamicPort) => {
+  const DYNAMIC_URL = `http://localhost:${dynamicPort}/api/v1/obscoin/blockchain`;
+  return handleFetch(DYNAMIC_URL);
+};
+
+const addTransaction = async (txData, dynamicPort) => {
+  const DYNAMIC_URL = `http://localhost:${dynamicPort}/api/v1/obscoin/transactions/transaction`;
   try {
-    const response = await fetch(`${BASE_URL}/transactions/transaction`, {
+    const response = await fetch(DYNAMIC_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(txData),
     });
-
     const result = await response.json();
-    console.log('Transaction added: ', result);
     return result;
-  } catch {
-    console.log(`Error: ${err} while adding block.`);
+  } catch (err) {
+    console.error(`Error: ${err} while adding transaction.`);
+    return {};
   }
 };
 
-export { getNodes, getBlockchain, getBlockById, addTransaction };
+export { getNodes, getBlockchain, addTransaction };
