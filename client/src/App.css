@@ -47,6 +47,51 @@
 }
 @media (prefers-reduced-motion: no-preference) {
   .logo {
-    animation: logo-spin infinite 20s linear, pulse-light infinite 1.5s ease-in-out;
+    animation: logo-spin infinite 20s linear,
+      pulse-light infinite 1.5s ease-in-out;
+  }
+}
+
+.pending-transactions li {
+  border-bottom: 1px solid white;
+  padding: 10px 0;
+}
+
+.form-wrapper {
+  width: 80vw;
+  min-width: 400px;
+  max-width: 600px;
+  margin-top: 20px;
+  margin-bottom: 50px;
+  margin-right: 20px;
+  padding: 20px;
+  box-shadow: 0 0 20px rgb(186, 228, 165);
+  border-radius: 10px;
+}
+
+.tx-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.tx-form label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.tx-form input {
+  box-sizing: border-box;
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid rgb(241, 230, 230);
+}
+
+@media (max-width: 768px) {
+  .form-wrapper {
+    max-width: 95vw;
+    min-width: 100px;
   }
 }
