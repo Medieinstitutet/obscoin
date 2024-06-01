@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:5010/api/v1/obscoin';
+const BASE_URL = 'http://localhost:5001/api/v1/obscoin';
 
 const handleFetch = async (url) => {
   try {
