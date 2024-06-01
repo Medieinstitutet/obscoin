@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import Header from './components/Header';
-import { getBlockchain } from './services/obscoinApi';
+import { getBlockchain, getNodes } from './services/obscoinApi';
 import TxForm from './components/TxForm';
 
 function App() {
@@ -11,6 +11,17 @@ function App() {
 
   useEffect(() => {
     fetchBlockchain();
+
+    const fetchNodes = async () => {
+      const nodes = await getNodes();
+      console.log('nodes from app', nodes);
+
+      nodes.map((node) => {
+        console.log(node.address);
+      });
+    };
+
+    fetchNodes();
   }, []);
 
   useEffect(() => {
@@ -39,13 +50,13 @@ function App() {
     return blockchainList.map((block, index) => (
       <div
         key={index}
-        className="block"
+        className='block'
       >
         <h3>Block {index + 1}</h3>
         <p>Hash: {block.hash}</p>
         <p>Last Hash: {block.lastHash}</p>
         <p>Timestamp: {block.timestamp}</p>
-        <ul className="transaction-list">
+        <ul className='transaction-list'>
           <h3>Transactions</h3>
           {block.data.map((transaction, i) => (
             <li key={i}>
@@ -78,18 +89,12 @@ function App() {
       {pendingTransactions.length > 0 ? (
         <>
           <h3>Pending Transactions</h3>
-          <ul className="pending-transactions">
-            {renderPendingTransactions()}
-          </ul>
+          <ul className='pending-transactions'>{renderPendingTransactions()}</ul>
         </>
       ) : (
         'No pending transactions...'
       )}
-      {blockchainList.length > 0 ? (
-        <ul>{renderBlockchain()}</ul>
-      ) : (
-        <p>Loading blockchain...</p>
-      )}
+      {blockchainList.length > 0 ? <ul>{renderBlockchain()}</ul> : <p>Loading blockchain...</p>}
     </>
   );
 }

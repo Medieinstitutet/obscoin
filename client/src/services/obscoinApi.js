@@ -1,4 +1,6 @@
 const BASE_URL = 'http://localhost:5010/api/v1/obscoin';
+const DYNAMIC_PORT = 'get dynamic port from getNodes';
+const DYNAMIC_URL = `http://localhost:${DYNAMIC_PORT}/api/v1/obscoin`;
 
 const handleFetch = async (url) => {
   try {
@@ -11,7 +13,18 @@ const handleFetch = async (url) => {
     console.log(`Error: ${err} while fetching.`);
   }
 };
+const getNodes = async () => {
+  try {
+    const response = await fetch(`${BASE_URL}/nodes`);
+    const data = await response.json();
+    console.log(data.nodes);
 
+    return data.nodes;
+  } catch (err) {
+    console.log(`Error: ${err} while fetching.`);
+  }
+};
+// const getNodes = () => handleFetch(`${BASE_URL}/nodes`);
 const getBlockchain = () => handleFetch(`${BASE_URL}/blockchain`);
 const getBlockById = (id) => handleFetch(`${BASE_URL}/blockchain/${id}`);
 
@@ -31,4 +44,4 @@ const addTransaction = async (txData) => {
   }
 };
 
-export { getBlockchain, getBlockById, addTransaction };
+export { getNodes, getBlockchain, getBlockById, addTransaction };

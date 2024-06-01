@@ -80,7 +80,9 @@ export default class Blockchain {
       return false;
     }
 
+    // TODO check whats wrong with JSON.stringify(newChain[0]) returning undefined
     if (JSON.stringify(newChain[0]) !== JSON.stringify(GENESIS_BLOCK)) {
+      console.log('new chain', JSON.stringify(GENESIS_BLOCK));
       console.error('First block in chain is not genesis');
       return false;
     }
@@ -90,9 +92,7 @@ export default class Blockchain {
       const newChainLastHash = newChain[i - 1].hash;
 
       if (lastHash !== newChainLastHash) {
-        console.error(
-          `Block index: ${i}, lastHash is not equal to newChainLastHash`
-        );
+        console.error(`Block index: ${i}, lastHash is not equal to newChainLastHash`);
         return false;
       }
 

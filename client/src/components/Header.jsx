@@ -6,7 +6,7 @@ const Header = () => {
   return (
     <div className='header'>
       <h1>OBSCOIN</h1>
-      <p className='slogan'>Sligan here, about our very good coin</p>
+      <p className='slogan'>Spinning transactions, smart moves.</p>
 
       <img
         src={ObsCoinLogo}

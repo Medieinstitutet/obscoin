@@ -3,6 +3,7 @@ import PubNub from 'pubnub';
 const CHANNELS = {
   TEST: 'TEST',
   BLOCKCHAIN: 'BLOCKCHAIN',
+  NODES: 'NODES',
 };
 
 // TODO make sure this works first, I think we need cross-env
@@ -15,12 +16,33 @@ const credentials = {
 };
 
 class PubNubServer {
-  constructor({ blockchain }) {
+  constructor({ blockchain, nodePort }) {
     this.blockchain = blockchain;
+    this.nodePort = nodePort;
     this.pubnub = new PubNub(credentials);
+    this.nodes = [];
 
     this.subscribeChannels();
     this.addListener();
+    this.broadcastNodeDetails();
+  }
+
+  broadcastNodeDetails() {
+    const portMessage = { address: this.nodePort };
+    try {
+      this.pubnub.publish({
+        channel: CHANNELS.NODES,
+        message: JSON.stringify(portMessage),
+      });
+      console.log('Successfully published nodes data');
+    } catch (err) {
+      console.error(`Failed to publish nodes data, error: ${err}`);
+    }
+  }
+
+  getNodes() {
+    console.log(this.nodes);
+    return this.nodes;
   }
 
   // Publish Blockchain data (public)
@@ -32,7 +54,7 @@ class PubNubServer {
       });
       console.log('Successfully published blockchain data');
     } catch (err) {
-      console.error(`Failed to publish, error: ${err}`);
+      console.error(`Failed to publish blockchain data, error: ${err}`);
     }
   }
 
@@ -40,9 +62,7 @@ class PubNubServer {
   subscribeChannels() {
     try {
       this.pubnub.subscribe({ channels: Object.values(CHANNELS) });
-      console.log(
-        `Successfully subscribed to channels: ${Object.values(CHANNELS)}`
-      );
+      // console.log(`Successfully subscribed to channels: ${Object.values(CHANNELS)}`);
     } catch (err) {
       console.error(`Failed to subscribe to channels, error: ${err}`);
     }
@@ -68,10 +88,12 @@ class PubNubServer {
       const { channel, message } = msgObj; // Extract incoming msgs
       const newChain = JSON.parse(message);
 
-      console.log(`Blockchain: ${message} received on channel: ${channel}`);
-
+      // console.log(`Blockchain: ${message} received on channel: ${channel}`);
       if (channel === CHANNELS.BLOCKCHAIN) {
         this.blockchain.updateChain(newChain);
+      } else if (channel === CHANNELS.NODES) {
+        this.nodes.push(newChain);
+        // console.log('nodesArray -----', this.nodes);
       }
     } catch (err) {
       console.log(`Error in handleMsg:', ${err}`);
