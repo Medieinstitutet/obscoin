@@ -13,6 +13,20 @@
 }
 .slogan {
   font-size: 1.2rem;
+  color: #e6f8de;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .slogan {
+    font-size: 0.8rem; /* Slightly smaller font size for tablets */
+  }
+}
+
+@media (max-width: 580px) {
+  .slogan {
+    display: none; /* Smaller font size for mobile phones */
+  }
 }
 
 .logo {
