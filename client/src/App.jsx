@@ -31,14 +31,10 @@ function App() {
     try {
       const nodes = await getNodes();
       if (nodes.length > 0) {
-        const firstNodeAddress = nodes[0].address.toString();
+        const firstNodeAddress = nodes[0].address;
 
-        const port = firstNodeAddress.includes(':')
-          ? firstNodeAddress.split(':')[1]
-          : firstNodeAddress;
-
-        console.log('Dynamic Port:', port);
-        setDynamicPort(port);
+        console.log('Dynamic Port:', firstNodeAddress);
+        setDynamicPort(firstNodeAddress);
       }
     } catch (err) {
       console.error(`Error fetching nodes: ${err}`);
