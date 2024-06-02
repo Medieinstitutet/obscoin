@@ -57,25 +57,29 @@ function App() {
   return (
     <>
       <Header />
-      <TxForm
-        fetchBlockchain={fetchBlockchain}
-        dynamicPort={dynamicPort}
-      />
-      {pendingTransactions.length > 0 ? (
-        <>
-          <h3>Pending Transactions</h3>
-          <ul className="pending-transactions">
-            {renderPendingTransactions(pendingTransactions)}
-          </ul>
-        </>
-      ) : (
-        'No pending transactions...'
-      )}
-      {blockchainList.length > 0 ? (
-        <ul>{renderBlockchain(blockchainList)}</ul>
-      ) : (
-        <p>Loading blockchain...</p>
-      )}
+      <div className="wrapper">
+        <TxForm
+          fetchBlockchain={fetchBlockchain}
+          dynamicPort={dynamicPort}
+        />
+        <div>
+          {pendingTransactions.length > 0 ? (
+            <>
+              <h3>Pending Transactions</h3>
+              <ul className="pending-transactions">
+                {renderPendingTransactions(pendingTransactions)}
+              </ul>
+            </>
+          ) : (
+            'No pending transactions...'
+          )}
+          {blockchainList.length > 0 ? (
+            <ul>{renderBlockchain(blockchainList)}</ul>
+          ) : (
+            <p>No blockchain</p>
+          )}
+        </div>
+      </div>
     </>
   );
 }
