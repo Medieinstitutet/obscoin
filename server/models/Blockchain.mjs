@@ -69,11 +69,9 @@ export default class Blockchain {
 
   updateChain(newChain) {
     if (newChain.length <= this.chain.length) {
-      console.error('new chain is not longer');
       return;
     }
     if (!Blockchain.isValidChain(newChain)) {
-      console.error('Chain is invalid');
       return;
     }
 
@@ -82,12 +80,10 @@ export default class Blockchain {
 
   static isValidChain(newChain) {
     if (newChain.length === 0) {
-      console.error('New chain is empty');
       return false;
     }
 
     if (JSON.stringify(newChain[0]) !== JSON.stringify(GENESIS_BLOCK)) {
-      console.error('First block in chain is not genesis');
       return false;
     }
 
@@ -96,9 +92,6 @@ export default class Blockchain {
       const newChainLastHash = newChain[i - 1].hash;
 
       if (lastHash !== newChainLastHash) {
-        console.error(
-          `Block index: ${i}, lastHash is not equal to newChainLastHash`
-        );
         return false;
       }
 
@@ -110,7 +103,6 @@ export default class Blockchain {
       );
 
       if (hash !== validatedHash) {
-        console.error(`Block index: ${i}, hash is not equal to validatedHash`);
         return false;
       }
     }

@@ -24,7 +24,6 @@ export const getTxById = (req, res, next) => {
 
   for (let block of blockchain.chain) {
     transaction = block.data.find((tx) => tx.txId === txId);
-    console.log(transaction);
     if (transaction) break;
   }
 

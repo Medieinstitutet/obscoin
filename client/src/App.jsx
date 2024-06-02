@@ -5,10 +5,7 @@ import SearchBar from './components/SearchBar';
 import Dropdown from './components/Dropdown';
 import { getBlockchain, getNodes, addBlockchain } from './services/obscoinApi';
 import TxForm from './components/TxForm';
-import {
-  renderBlockchain,
-  renderPendingTransactions,
-} from './components/TxList';
+import { renderBlockchain, renderPendingTransactions } from './components/TxList';
 
 function App() {
   const [blockchain, setBlockchain] = useState({});
@@ -20,7 +17,7 @@ function App() {
 
   useEffect(() => {
     fetchNodes();
-  }, []);
+  }, [nodes]);
 
   useEffect(() => {
     if (dynamicPort) {
@@ -39,7 +36,6 @@ function App() {
     try {
       const fetchedNodes = await getNodes();
       setNodes(fetchedNodes);
-      console.log('fetchedNodes', fetchedNodes);
       if (fetchedNodes.length > 0) {
         const firstNodeAddress = fetchedNodes[0].address;
 
@@ -73,7 +69,7 @@ function App() {
   return (
     <>
       <Header />
-      <div className="wrapper">
+      <div className='wrapper'>
         <Dropdown
           nodes={nodes}
           setDynamicPort={setDynamicPort}
@@ -97,7 +93,7 @@ function App() {
           {pendingTransactions.length > 0 ? (
             <>
               <h3 className='tx-header'>Pending Transactions</h3>
-              <ul className="pending-transactions">
+              <ul className='pending-transactions'>
                 {renderPendingTransactions(pendingTransactions)}
               </ul>
             </>
