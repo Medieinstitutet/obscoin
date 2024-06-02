@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:5001/api/v1/obscoin';
+const BASE_URL = 'http://localhost:5010/api/v1/obscoin';
 
 const handleFetch = async (url) => {
   try {
@@ -43,4 +43,19 @@ const addTransaction = async (txData, dynamicPort) => {
   }
 };
 
-export { getNodes, getBlockchain, addTransaction };
+const addBlockchain = async (dynamicPort) => {
+  const DYNAMIC_URL = `http://localhost:${dynamicPort}/api/v1/obscoin/blockchain/mine`;
+  console.log('DYNAMIC_URL', DYNAMIC_URL);
+  try {
+    const response = await fetch(DYNAMIC_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    const result = await response.json();
+    return result;
+  } catch (err) {
+    console.error(`Error: ${err} while mining.`);
+  }
+};
+
+export { getNodes, getBlockchain, addTransaction, addBlockchain };

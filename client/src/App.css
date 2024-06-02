@@ -188,3 +188,15 @@
   align-items: center;
   justify-content: center;
 }
+
+.dropdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropdown p {
+  color: white;
+  font-size: 0.9rem;
+}

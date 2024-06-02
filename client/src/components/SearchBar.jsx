@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import './SearchBar.css';
+import '../SearchBar.css';
 
-const getBlockById = async (id) => {
+const getTxById = async (txId, dynamicPort) => {
   try {
-    const response = await fetch(`http://localhost:${dynamicPort}/api/v1/obscoin/transactions/${txId}`);
+    const response = await fetch(
+      `http://localhost:${dynamicPort}/api/v1/obscoin/transactions/${txId}`
+    );
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
@@ -15,7 +17,7 @@ const getBlockById = async (id) => {
   }
 };
 
-const SearchBar = () => {
+const SearchBar = ({ dynamicPort }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [blockData, setBlockData] = useState(null);
 
@@ -23,18 +25,24 @@ const SearchBar = () => {
     setSearchTerm(event.target.value);
   };
 
-  const handleSearch = async () => {
+  const handleSearch = async (searchTerm) => {
     console.log('Searching for:', searchTerm);
-    const data = await getBlockById(searchTerm);
+    const data = await getTxById(searchTerm, dynamicPort);
+    console.log(searchTerm);
     setBlockData(data);
   };
 
   return (
     <div>
-      <form onSubmit={(e) => { e.preventDefault(); handleSearch(); }}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSearch(searchTerm);
+        }}
+      >
         <input
           type="text"
-          placeholder="Search..."
+          placeholder="Insert transaction id.."
           value={searchTerm}
           onChange={handleInputChange}
         />

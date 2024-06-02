@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import Header from './components/Header';
-import { getBlockchain, getNodes } from './services/obscoinApi';
+import SearchBar from './components/SearchBar';
+import Dropdown from './components/Dropdown';
+import { getBlockchain, getNodes, addBlockchain } from './services/obscoinApi';
 import TxForm from './components/TxForm';
 import {
   renderBlockchain,
@@ -13,6 +15,8 @@ function App() {
   const [blockchainList, setBlockchainList] = useState([]);
   const [pendingTransactions, setPendingTransactions] = useState([]);
   const [dynamicPort, setDynamicPort] = useState('');
+  const [nodes, setNodes] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchNodes();
@@ -22,7 +26,7 @@ function App() {
     if (dynamicPort) {
       fetchBlockchain(dynamicPort);
     }
-  }, [dynamicPort]);
+  }, [dynamicPort, loading]);
 
   useEffect(() => {
     if (blockchain && blockchain.data && Array.isArray(blockchain.data.chain)) {
@@ -33,9 +37,11 @@ function App() {
 
   const fetchNodes = async () => {
     try {
-      const nodes = await getNodes();
-      if (nodes.length > 0) {
-        const firstNodeAddress = nodes[0].address;
+      const fetchedNodes = await getNodes();
+      setNodes(fetchedNodes);
+      console.log('fetchedNodes', fetchedNodes);
+      if (fetchedNodes.length > 0) {
+        const firstNodeAddress = fetchedNodes[0].address;
 
         console.log('Dynamic Port:', firstNodeAddress);
         setDynamicPort(firstNodeAddress);
@@ -54,14 +60,41 @@ function App() {
     }
   };
 
+  const handleMine = async () => {
+    setLoading(true);
+    try {
+      const result = await addBlockchain(dynamicPort);
+      console.log('Mining result:', result);
+    } catch (err) {
+      console.error('Error while mining:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <Header />
       <div className="wrapper">
+        <Dropdown
+          nodes={nodes}
+          setDynamicPort={setDynamicPort}
+        />
+        <SearchBar dynamicPort={dynamicPort} />
         <TxForm
           fetchBlockchain={fetchBlockchain}
           dynamicPort={dynamicPort}
         />
+        {pendingTransactions.length > 0 ? (
+          <button
+            onClick={handleMine}
+            disabled={loading}
+          >
+            {loading ? 'Mining ...' : 'Mine pending transactions'}
+          </button>
+        ) : (
+          'No Pending Transactions'
+        )}
         <div>
           {pendingTransactions.length > 0 ? (
             <>
@@ -70,9 +103,7 @@ function App() {
                 {renderPendingTransactions(pendingTransactions)}
               </ul>
             </>
-          ) : (
-            'No pending transactions...'
-          )}
+          ) : null}
           {blockchainList.length > 0 ? (
             <ul>{renderBlockchain(blockchainList)}</ul>
           ) : (
