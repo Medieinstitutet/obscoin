@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './SearchBar.css';
 
-const BASE_URL = 'http://localhost:5010/api/v1/obscoin';
+const BASE_URL = 'http://localhost:${dynamicPort}/api/v1/obscoin/transactions/${txId}';
 
 const getBlockById = async (id) => {
   try {
