@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-// Here we need base URL?
-const BASE_URL = 
+
+const BASE_URL = 'http://localhost:5010/api/v1/obscoin';
 
 const getBlockById = async (id) => {
   try {
