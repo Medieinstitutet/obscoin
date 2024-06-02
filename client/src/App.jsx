@@ -3,6 +3,10 @@ import './App.css';
 import Header from './components/Header';
 import { getBlockchain, getNodes } from './services/obscoinApi';
 import TxForm from './components/TxForm';
+import {
+  renderBlockchain,
+  renderPendingTransactions,
+} from './components/TxList';
 
 function App() {
   const [blockchain, setBlockchain] = useState({});
@@ -50,64 +54,32 @@ function App() {
     }
   };
 
-  const renderBlockchain = () => {
-    return blockchainList.map((block, index) => (
-      <div
-        key={index}
-        className="block"
-      >
-        <h3>Block {index + 1}</h3>
-        <p>Hash: {block.hash}</p>
-        <p>Last Hash: {block.lastHash}</p>
-        <p>Timestamp: {block.timestamp}</p>
-        <ul className="transaction-list">
-          <h3>Transactions</h3>
-          {block.data.map((transaction, i) => (
-            <li key={i}>
-              <p>Amount: {transaction.amount}</p>
-              <p>Recipient: {transaction.recipient}</p>
-              <p>Sender: {transaction.sender}</p>
-              <p>Transaction Id: {transaction.txId}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
-    ));
-  };
-
-  const renderPendingTransactions = () => {
-    return pendingTransactions.map((transaction, i) => (
-      <li key={i}>
-        <p>Amount: {transaction.amount}</p>
-        <p>Recipient: {transaction.recipient}</p>
-        <p>Sender: {transaction.sender}</p>
-        <p>Transaction Id: {transaction.txId}</p>
-      </li>
-    ));
-  };
-
   return (
     <>
       <Header />
-      <TxForm
-        fetchBlockchain={fetchBlockchain}
-        dynamicPort={dynamicPort}
-      />
-      {pendingTransactions.length > 0 ? (
-        <>
-          <h3>Pending Transactions</h3>
-          <ul className="pending-transactions">
-            {renderPendingTransactions()}
-          </ul>
-        </>
-      ) : (
-        'No pending transactions...'
-      )}
-      {blockchainList.length > 0 ? (
-        <ul>{renderBlockchain()}</ul>
-      ) : (
-        <p>Loading blockchain...</p>
-      )}
+      <div className="wrapper">
+        <TxForm
+          fetchBlockchain={fetchBlockchain}
+          dynamicPort={dynamicPort}
+        />
+        <div>
+          {pendingTransactions.length > 0 ? (
+            <>
+              <h3>Pending Transactions</h3>
+              <ul className="pending-transactions">
+                {renderPendingTransactions(pendingTransactions)}
+              </ul>
+            </>
+          ) : (
+            'No pending transactions...'
+          )}
+          {blockchainList.length > 0 ? (
+            <ul>{renderBlockchain(blockchainList)}</ul>
+          ) : (
+            <p>No blockchain</p>
+          )}
+        </div>
+      </div>
     </>
   );
 }

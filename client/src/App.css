@@ -1,5 +1,6 @@
 #root {
   margin: 0 auto;
+
   /* text-align: center; */
 }
 
@@ -7,12 +8,26 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  border-bottom: 2px dotted rgb(88, 96, 110);
+  /* border-bottom: 2px dotted rgb(88, 96, 110); */
   justify-content: space-between;
   padding: 1rem 2rem;
 }
 .slogan {
   font-size: 1.2rem;
+  color: #e6f8de;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .slogan {
+    font-size: 0.8rem; /* Slightly smaller font size for tablets */
+  }
+}
+
+@media (max-width: 580px) {
+  .slogan {
+    display: none; /* Smaller font size for mobile phones */
+  }
 }
 
 .logo {
@@ -24,9 +39,73 @@
 }
 
 .block {
-  border: 1px solid white;
-  padding: 1rem;
+  width: 80vw;
+  min-width: 400px;
+  max-width: 600px;
+  margin-top: 20px;
+  margin-bottom: 50px;
+  margin-right: 20px;
+  padding: 20px;
+  background: linear-gradient(135deg, #e0f7fa 0%, #80deea 100%);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1), 0 0 20px rgba(186, 228, 165, 0.5);
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  word-wrap: break-word;
 }
+
+.block:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 30px rgb(5, 54, 4), 0 0 30px hsla(225, 85%, 57%, 0.757);
+}
+
+.block h3 {
+  font-size: 1.5em;
+  color: #00796b;
+}
+
+.block p {
+  font-size: 1em;
+  color: #004d40;
+}
+
+.transaction-list {
+  list-style: none;
+  padding: 0;
+}
+
+.transaction-list li {
+  background: #ffffff;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.transaction-list li:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px;
+}
+
+.pending-transactions {
+  list-style: none;
+  padding: 0;
+}
+
+.pending-transactions li {
+  background: #ffe0b2;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pending-transactions li:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px #80ba63b3;
+}
+
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
@@ -53,8 +132,15 @@
 }
 
 .pending-transactions li {
-  border-bottom: 1px solid white;
-  padding: 10px 0;
+  width: 80vw;
+  min-width: 400px;
+  max-width: 600px;
+  margin-top: 20px;
+  margin-bottom: 50px;
+  margin-right: 20px;
+  padding: 20px;
+  box-shadow: 0 0 20px rgb(186, 228, 165);
+  border-radius: 10px;
 }
 
 .form-wrapper {
@@ -94,4 +180,11 @@
     max-width: 95vw;
     min-width: 100px;
   }
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }

@@ -8,7 +8,13 @@ const GENESIS_BLOCK = {
   lastHash: '0',
   hash: '0',
   index: 0,
-  data: [],
+  data: [
+    {
+      amount: 0,
+      recipient: 'Genesis Block',
+      sender: 'Genesis Block',
+    },
+  ],
 };
 export default class Blockchain {
   constructor() {
@@ -92,7 +98,9 @@ export default class Blockchain {
       const newChainLastHash = newChain[i - 1].hash;
 
       if (lastHash !== newChainLastHash) {
-        console.error(`Block index: ${i}, lastHash is not equal to newChainLastHash`);
+        console.error(
+          `Block index: ${i}, lastHash is not equal to newChainLastHash`
+        );
         return false;
       }
 
