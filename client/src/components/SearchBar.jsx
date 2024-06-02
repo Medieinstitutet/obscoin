@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import './SearchBar.css';
 
-const BASE_URL = 'http://localhost:${dynamicPort}/api/v1/obscoin/transactions/${txId}';
-
 const getBlockById = async (id) => {
   try {
-    const response = await fetch(`${BASE_URL}/blockchain/${id}`);
+    const response = await fetch(`http://localhost:${dynamicPort}/api/v1/obscoin/transactions/${txId}`);
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
