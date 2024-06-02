@@ -9,16 +9,16 @@ const Dropdown = ({ nodes, setDynamicPort }) => {
     setSelectedNode(nodeNumber);
     setDynamicPort(nodeNumber);
   };
-  console.log('nodes from dropdown', nodes);
 
   return (
-    <div className="dropdown">
+    <div className='dropdown-wrapper'>
       <select
-        id="nodeSelect"
+        id='nodeSelect'
         value={selectedNode}
         onChange={changeNode}
+        className='dropdown'
       >
-        <option value="">Select a node</option>
+        <option value=''>Select a node</option>
         {nodes.map((node, index) => {
           return (
             <option

@@ -45,7 +45,6 @@ const addTransaction = async (txData, dynamicPort) => {
 
 const addBlockchain = async (dynamicPort) => {
   const DYNAMIC_URL = `http://localhost:${dynamicPort}/api/v1/obscoin/blockchain/mine`;
-  console.log('DYNAMIC_URL', DYNAMIC_URL);
   try {
     const response = await fetch(DYNAMIC_URL, {
       method: 'POST',

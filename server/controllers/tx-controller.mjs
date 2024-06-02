@@ -1,7 +1,6 @@
 import Transaction from '../models/Transaction.mjs';
 import { blockchain } from '../server.mjs';
 
-// Create a new transaction...
 export const createTx = (req, res, next) => {
   const { amount, sender, recipient } = req.body;
 
@@ -18,7 +17,6 @@ export const createTx = (req, res, next) => {
   }
 };
 
-// Get transaction by ID...
 export const getTxById = (req, res, next) => {
   const { txId } = req.params;
 
@@ -37,7 +35,6 @@ export const getTxById = (req, res, next) => {
   res.status(200).json(transaction);
 };
 
-// Get all transactions...
 export const getAllTx = (req, res, next) => {
   res.status(200).json(blockchain.pendingTransactions);
 };

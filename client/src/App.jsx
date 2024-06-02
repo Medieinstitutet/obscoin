@@ -43,7 +43,6 @@ function App() {
       if (fetchedNodes.length > 0) {
         const firstNodeAddress = fetchedNodes[0].address;
 
-        console.log('Dynamic Port:', firstNodeAddress);
         setDynamicPort(firstNodeAddress);
       }
     } catch (err) {
@@ -64,7 +63,6 @@ function App() {
     setLoading(true);
     try {
       const result = await addBlockchain(dynamicPort);
-      console.log('Mining result:', result);
     } catch (err) {
       console.error('Error while mining:', err);
     } finally {
@@ -95,10 +93,10 @@ function App() {
         ) : (
           'No Pending Transactions'
         )}
-        <div>
+        <div className='transactions-wrapper'>
           {pendingTransactions.length > 0 ? (
             <>
-              <h3>Pending Transactions</h3>
+              <h3 className='tx-header'>Pending Transactions</h3>
               <ul className="pending-transactions">
                 {renderPendingTransactions(pendingTransactions)}
               </ul>

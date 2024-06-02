@@ -6,8 +6,6 @@ const CHANNELS = {
   NODES: 'NODES',
 };
 
-// TODO make sure this works first, I think we need cross-env
-// otherwise uninstall cross-env
 const credentials = {
   publishKey: process.env.PUBNUB_PUBLISH_KEY,
   subscribeKey: process.env.PUBNUB_SUBSCRIBE_KEY,
@@ -34,18 +32,15 @@ class PubNubServer {
         channel: CHANNELS.NODES,
         message: JSON.stringify(portMessage),
       });
-      console.log('Successfully published nodes data');
     } catch (err) {
       console.error(`Failed to publish nodes data, error: ${err}`);
     }
   }
 
   getNodes() {
-    console.log(this.nodes);
     return this.nodes;
   }
 
-  // Publish Blockchain data (public)
   broadcast() {
     try {
       this.pubnub.publish({
@@ -58,23 +53,18 @@ class PubNubServer {
     }
   }
 
-  // Subscribe to channels and recieve messages
   subscribeChannels() {
     try {
       this.pubnub.subscribe({ channels: Object.values(CHANNELS) });
-      // console.log(`Successfully subscribed to channels: ${Object.values(CHANNELS)}`);
     } catch (err) {
       console.error(`Failed to subscribe to channels, error: ${err}`);
     }
   }
 
-  // When message is recieved on subscribeChannels() :
-  // Executes callback in to listen for incoming messages
   addListener() {
     try {
       this.pubnub.addListener({
         message: (msgObj) => {
-          // Use an arrow function to preserve `this` context
           this.handleMsg(msgObj);
         },
       });
@@ -85,18 +75,16 @@ class PubNubServer {
 
   handleMsg(msgObj) {
     try {
-      const { channel, message } = msgObj; // Extract incoming msgs
+      const { channel, message } = msgObj; 
       const newChain = JSON.parse(message);
 
-      // console.log(`Blockchain: ${message} received on channel: ${channel}`);
       if (channel === CHANNELS.BLOCKCHAIN) {
         this.blockchain.updateChain(newChain);
       } else if (channel === CHANNELS.NODES) {
         this.nodes.push(newChain);
-        // console.log('nodesArray -----', this.nodes);
       }
     } catch (err) {
-      console.log(`Error in handleMsg:', ${err}`);
+      console.error(`Error in handleMsg:', ${err}`);
     }
   }
 }

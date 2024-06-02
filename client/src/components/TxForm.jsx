@@ -22,18 +22,18 @@ const TxForm = ({ fetchBlockchain, dynamicPort }) => {
   };
 
   return (
-    <div className="form-wrapper">
+    <div className='form-wrapper'>
       <h3>Add a transaction</h3>
       <form
-        className="tx-form"
+        className='tx-form'
         onSubmit={handleAddTransaction}
       >
         <label>
           Sender:
           <input
-            type="text"
+            type='text'
             value={sender}
-            placeholder="Type name here..."
+            placeholder='Type name here...'
             onChange={(e) => setSender(e.target.value)}
             required
           />
@@ -41,9 +41,9 @@ const TxForm = ({ fetchBlockchain, dynamicPort }) => {
         <label>
           Recipient:
           <input
-            type="text"
+            type='text'
             value={recipient}
-            placeholder="Type name here..."
+            placeholder='Type name here...'
             onChange={(e) => setRecipient(e.target.value)}
             required
           />
@@ -51,14 +51,14 @@ const TxForm = ({ fetchBlockchain, dynamicPort }) => {
         <label>
           Amount:
           <input
-            type="text"
+            type='text'
             value={amount}
-            placeholder="Type amount here..."
+            placeholder='Type amount here...'
             onChange={(e) => setAmount(e.target.value)}
             required
           />
         </label>
-        <button type="submit">Add Transaction</button>
+        <button type='submit'>Add Transaction</button>
       </form>
     </div>
   );

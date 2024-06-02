@@ -26,27 +26,28 @@ const SearchBar = ({ dynamicPort }) => {
   };
 
   const handleSearch = async (searchTerm) => {
-    console.log('Searching for:', searchTerm);
     const data = await getTxById(searchTerm, dynamicPort);
-    console.log(searchTerm);
     setBlockData(data);
   };
 
   return (
-    <div>
+    <div >
       <form
         onSubmit={(e) => {
           e.preventDefault();
           handleSearch(searchTerm);
         }}
+        className='search-wrapper'
       >
         <input
-          type="text"
-          placeholder="Insert transaction id.."
+          type='text'
+          placeholder='Insert transaction id..'
           value={searchTerm}
           onChange={handleInputChange}
+          className='search-input'
         />
-        <button type="submit">Search</button>
+
+        <button type='submit'>Search</button>
       </form>
       {blockData && (
         <div>

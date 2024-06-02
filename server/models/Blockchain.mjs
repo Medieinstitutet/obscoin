@@ -69,7 +69,7 @@ export default class Blockchain {
 
   updateChain(newChain) {
     if (newChain.length <= this.chain.length) {
-      console.log('new chain is not longer');
+      console.error('new chain is not longer');
       return;
     }
     if (!Blockchain.isValidChain(newChain)) {
@@ -86,9 +86,7 @@ export default class Blockchain {
       return false;
     }
 
-    // TODO check whats wrong with JSON.stringify(newChain[0]) returning undefined
     if (JSON.stringify(newChain[0]) !== JSON.stringify(GENESIS_BLOCK)) {
-      console.log('new chain', JSON.stringify(GENESIS_BLOCK));
       console.error('First block in chain is not genesis');
       return false;
     }

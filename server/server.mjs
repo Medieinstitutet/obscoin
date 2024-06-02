@@ -20,7 +20,6 @@ app.use(express.json());
 app.use(cors());
 
 setTimeout(() => {
-  console.log(nodePort);
   pubnub.broadcast();
 }, 1000);
 pubnub.getNodes();

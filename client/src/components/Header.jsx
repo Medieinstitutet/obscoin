@@ -1,7 +1,6 @@
 import React from 'react';
 import ObsCoinLogo from '../assets/obscoin-logo.png';
 
-// TODO create issue and change branch to it
 const Header = () => {
   return (
     <div className='header'>
