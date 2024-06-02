@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './SearchBar.css';
 
 const BASE_URL = 'http://localhost:5010/api/v1/obscoin';
 
